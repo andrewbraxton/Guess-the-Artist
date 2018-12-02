@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">CS 125 MP6</string>
+    <string name="guess_the_artist">Guess the Artist</string>
 </resources>
