@@ -2,6 +2,7 @@ package edu.illinois.cs.cs125.cs125mp6;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -59,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
                             Log.d(TAG, response.toString());
                             final TextView lyrics = findViewById(R.id.lyrics);
                             lyrics.setText(response.toString());
+                            lyrics.setMovementMethod(new ScrollingMovementMethod());
                         }
                     }, new Response.ErrorListener() {
                         @Override
