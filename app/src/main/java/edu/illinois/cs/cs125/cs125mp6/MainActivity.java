@@ -16,6 +16,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.JsonObject;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -95,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
                 Button[] buttons = {choice1, choice2, choice3};
 
                 Button correct = buttons[new Random().nextInt(buttons.length)];
-
                 getNewLyrics(correct);
             }
         });
@@ -110,10 +110,16 @@ public class MainActivity extends AppCompatActivity {
                     null,
                     new Response.Listener<JSONObject>() {
                         @Override
-                        public void onResponse(JSONObject response) {
+                        public void onResponse(JSONObject response)  {
                             Log.d(TAG, response.toString());
                             final TextView lyrics = findViewById(R.id.lyrics);
-                            lyrics.setText(response.toString());
+                            String formattedLyrics = "";
+                            try {
+                                formattedLyrics = formatLyrics(response.get("lyrics").toString());
+                            } catch (JSONException e) {
+                                Log.d(TAG, "JSONException occurred");
+                            }
+                            lyrics.setText(formattedLyrics);
                             lyrics.setMovementMethod(new ScrollingMovementMethod());
                         }
                     }, new Response.ErrorListener() {
@@ -126,5 +132,12 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    String formatLyrics(String toFormat) {
+        String formattedString = toFormat.replace("\\n", "\n");
+        formattedString = formattedString.replace("\\r", "");
+        formattedString = formattedString.replace("\\\"", "\"");
+        return formattedString;
     }
 }
