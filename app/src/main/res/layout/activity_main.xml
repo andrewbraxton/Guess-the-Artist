@@ -10,14 +10,18 @@
 
     <TextView
         android:id="@+id/lyrics"
-        android:layout_width="382dp"
-        android:layout_height="300dp"
+        android:layout_width="332dp"
+        android:layout_height="400dp"
+        android:layout_marginTop="10dp"
+        android:background="?attr/colorButtonNormal"
         android:scrollbars="vertical"
-        android:text="TextView" />
+        android:text="Lyrics appear here" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         android:gravity="center_vertical|center_horizontal"
         android:orientation="horizontal">
 
@@ -50,7 +54,7 @@
         android:id="@+id/newLyrics"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="0dp"
         android:text="New Lyrics" />
 
 </LinearLayout>

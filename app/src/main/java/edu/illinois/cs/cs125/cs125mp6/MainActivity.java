@@ -118,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
                                 formattedLyrics = formatLyrics(response.get("lyrics").toString());
                             } catch (JSONException e) {
                                 Log.d(TAG, "JSONException occurred");
+                                return;
                             }
                             lyrics.setText(formattedLyrics);
                             lyrics.setMovementMethod(new ScrollingMovementMethod());
