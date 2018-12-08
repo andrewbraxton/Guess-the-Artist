@@ -83,15 +83,25 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(final View v) {
                 Log.d(TAG, "New Lyrics button clicked");
 
+                String[] selectedArtists = new String[2];
+
                 String s1 = songs.get(new Random().nextInt(songs.size()));
                 choice1.setText(s1.split("-")[0]);
                 choice1.setTag(s1.split("-")[1]);
-                String s2 = songs.get(new Random().nextInt(songs.size()));
-                choice2.setText(s2.split("-")[0]);
-                choice2.setTag(s2.split("-")[1]);
-                String s3 = songs.get(new Random().nextInt(songs.size()));
-                choice3.setText(s3.split("-")[0]);
-                choice3.setTag(s3.split("-")[1]);
+                selectedArtists[0] = choice1.getText().toString();
+                String s2;
+                do {
+                    s2 = songs.get(new Random().nextInt(songs.size()));
+                    choice2.setText(s2.split("-")[0]);
+                    choice2.setTag(s2.split("-")[1]);
+                } while (choice2.getText().toString().equals(selectedArtists[0]));
+                selectedArtists[1] = choice2.getText().toString();
+                String s3;
+                do {
+                    s3 = songs.get(new Random().nextInt(songs.size()));
+                    choice3.setText(s3.split("-")[0]);
+                    choice3.setTag(s3.split("-")[1]);
+                } while (choice3.getText().toString().equals(selectedArtists[0]) || choice3.getText().toString().equals(selectedArtists[1]));
 
                 Button[] buttons = {choice1, choice2, choice3};
 
@@ -113,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
                         public void onResponse(JSONObject response)  {
                             Log.d(TAG, response.toString());
                             final TextView lyrics = findViewById(R.id.lyrics);
-                            String formattedLyrics = "";
+                            String formattedLyrics;
                             try {
                                 formattedLyrics = formatLyrics(response.get("lyrics").toString());
                             } catch (JSONException e) {
@@ -137,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
 
     String formatLyrics(String toFormat) {
         String formattedString = toFormat.replace("\\n", "\n");
-        formattedString = formattedString.replace("\\r", "");
+        formattedString = formattedString.replace("\\r", "\r");
         formattedString = formattedString.replace("\\\"", "\"");
         return formattedString;
     }
