@@ -14,8 +14,7 @@
         android:layout_height="400dp"
         android:layout_marginTop="10dp"
         android:background="?attr/colorButtonNormal"
-        android:scrollbars="vertical"
-        android:text="Lyrics appear here" />
+        android:scrollbars="vertical" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,34 +26,30 @@
 
         <Button
             android:id="@+id/choice1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:gravity="center_vertical|center"
-            android:text="Button" />
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_margin="8dp"
+            android:gravity="center_vertical|center" />
 
         <Button
             android:id="@+id/choice2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:gravity="center_vertical|center"
-            android:text="Button" />
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_margin="8dp"
+            android:gravity="center_vertical|center" />
 
         <Button
             android:id="@+id/choice3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:gravity="center_vertical|center"
-            android:text="Button" />
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_margin="8dp"
+            android:gravity="center_vertical|center" />
     </LinearLayout>
 
     <Button
         android:id="@+id/newLyrics"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
-        android:text="New Lyrics" />
+        android:text="START GAME" />
 
 </LinearLayout>

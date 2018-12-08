@@ -43,14 +43,12 @@ public class MainActivity extends AppCompatActivity {
 
         requestQueue = Volley.newRequestQueue(this);
 
-        songs = new ArrayList<String>();
+        songs = new ArrayList<>();
         songs.add("Young Thug-Halftime");
         songs.add("Denzel Curry-Ultimate");
         songs.add("Travis Scott-Sicko Mode");
         songs.add("Chief Keef-Faneto");
         songs.add("Rush-Tom Sawyer");
-
-        String answer = "";
 
         // Attach the handler to our UI button
 
@@ -82,6 +80,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(final View v) {
                 Log.d(TAG, "New Lyrics button clicked");
+
+                newLyrics.setText("NEW LYRICS");
 
                 String[] selectedArtists = new String[2];
 
