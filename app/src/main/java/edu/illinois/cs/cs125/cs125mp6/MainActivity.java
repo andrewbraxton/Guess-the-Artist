@@ -1,5 +1,6 @@
 package edu.illinois.cs.cs125.cs125mp6;
 
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -36,6 +37,10 @@ public class MainActivity extends AppCompatActivity {
 
     private static ArrayList<String> songs;
 
+    private static boolean choiceMade;
+
+    private static Button[] buttons;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,26 +59,10 @@ public class MainActivity extends AppCompatActivity {
 
 
         final Button choice1 = findViewById(R.id.choice1);
-        choice1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                Log.d(TAG, "Choice 1 button clicked");
-            }
-        });
         final Button choice2 = findViewById(R.id.choice2);
-        choice2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                Log.d(TAG, "Choice 2 button clicked");
-            }
-        });
         final Button choice3 = findViewById(R.id.choice3);
-        choice3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                Log.d(TAG, "Choice 3 button clicked");
-            }
-        });
+        buttons = new Button[] {choice1, choice2, choice3};
+        resetButtonColors();
 
         final Button newLyrics = findViewById(R.id.newLyrics);
         newLyrics.setOnClickListener(new View.OnClickListener() {
@@ -103,13 +92,60 @@ public class MainActivity extends AppCompatActivity {
                     choice3.setTag(s3.split("-")[1]);
                 } while (choice3.getText().toString().equals(selectedArtists[0]) || choice3.getText().toString().equals(selectedArtists[1]));
 
-                Button[] buttons = {choice1, choice2, choice3};
+                final Button correct = buttons[new Random().nextInt(buttons.length)];
 
-                Button correct = buttons[new Random().nextInt(buttons.length)];
+                final Button choice1 = findViewById(R.id.choice1);
+                choice1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(final View v) {
+                        Log.d(TAG, "Choice 1 button clicked");
+                        if (!choiceMade) {
+                            changeButtonColors(correct);
+                        }
+                    }
+                });
+                final Button choice2 = findViewById(R.id.choice2);
+                choice2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(final View v) {
+                        Log.d(TAG, "Choice 2 button clicked");
+                        if (!choiceMade) {
+                            changeButtonColors(correct);
+                        }
+                    }
+                });
+                final Button choice3 = findViewById(R.id.choice3);
+                choice3.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(final View v) {
+                        Log.d(TAG, "Choice 3 button clicked");
+                        if (!choiceMade) {
+                            changeButtonColors(correct);
+                        }
+                    }
+                });
+                resetButtonColors();
+
                 getNewLyrics(correct);
             }
         });
 
+    }
+
+    void resetButtonColors() {
+        for (Button b: buttons) {
+            b.setBackgroundColor(Color.LTGRAY);
+        }
+    }
+
+    void changeButtonColors(Button correct) {
+        for (Button b: buttons) {
+            if (b == correct) {
+                b.setBackgroundColor(Color.GREEN);
+            } else {
+                b.setBackgroundColor(Color.RED);
+            }
+        }
     }
 
     void getNewLyrics(Button correct) {
