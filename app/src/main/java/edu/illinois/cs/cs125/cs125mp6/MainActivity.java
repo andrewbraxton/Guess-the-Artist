@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
         final Button choice3 = findViewById(R.id.choice3);
         buttons = new Button[] {choice1, choice2, choice3};
         resetButtonColors();
+        final TextView result = findViewById(R.id.result);
 
         final Button newLyrics = findViewById(R.id.newLyrics);
         newLyrics.setOnClickListener(new View.OnClickListener() {
@@ -101,6 +102,12 @@ public class MainActivity extends AppCompatActivity {
                         Log.d(TAG, "Choice 1 button clicked");
                         if (!choiceMade) {
                             changeButtonColors(correct);
+                            choiceMade = true;
+                            if (choice1 == correct) {
+                                result.setText("Correct!");
+                            } else {
+                                result.setText("Incorrect!");
+                            }
                         }
                     }
                 });
@@ -111,6 +118,12 @@ public class MainActivity extends AppCompatActivity {
                         Log.d(TAG, "Choice 2 button clicked");
                         if (!choiceMade) {
                             changeButtonColors(correct);
+                            choiceMade = true;
+                            if (choice2 == correct)  {
+                                result.setText("Correct!");
+                            } else {
+                                result.setText("Incorrect!");
+                            }
                         }
                     }
                 });
@@ -121,11 +134,18 @@ public class MainActivity extends AppCompatActivity {
                         Log.d(TAG, "Choice 3 button clicked");
                         if (!choiceMade) {
                             changeButtonColors(correct);
+                            choiceMade = true;
+                            if (choice3 == correct) {
+                                result.setText("Correct!");
+                            } else {
+                                result.setText("Incorrect!");
+                            }
                         }
                     }
                 });
+                result.setText("");
                 resetButtonColors();
-
+                choiceMade = false;
                 getNewLyrics(correct);
             }
         });
