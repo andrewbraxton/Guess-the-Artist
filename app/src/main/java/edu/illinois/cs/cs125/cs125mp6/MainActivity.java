@@ -15,11 +15,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.gson.JsonObject;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -45,57 +46,44 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         requestQueue = Volley.newRequestQueue(this);
-
-        songs = new ArrayList<>();
-        songs.add("Young Thug-Halftime");
-        songs.add("Denzel Curry-Ultimate");
-        songs.add("Travis Scott-Sicko Mode");
-        songs.add("Chief Keef-Faneto");
-        songs.add("Rush-Tom Sawyer");
-
-        // Attach the handler to our UI button
-
-
         final Button choice1 = findViewById(R.id.choice1);
         final Button choice2 = findViewById(R.id.choice2);
         final Button choice3 = findViewById(R.id.choice3);
-        buttons = new Button[] {choice1, choice2, choice3};
+        buttons = new Button[]{choice1, choice2, choice3};
         resetButtonColors();
         final TextView result = findViewById(R.id.result);
-
+        try {
+            getSongs();
+        } catch (Exception e) {
+        }
         final Button newLyrics = findViewById(R.id.newLyrics);
         newLyrics.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
                 Log.d(TAG, "New Lyrics button clicked");
-
                 newLyrics.setText("NEW LYRICS");
-
                 String[] selectedArtists = new String[2];
-
                 String s1 = songs.get(new Random().nextInt(songs.size()));
-                choice1.setText(s1.split("-")[0]);
-                choice1.setTag(s1.split("-")[1]);
+                choice1.setText(s1.split(" - ")[0]);
+                choice1.setTag(s1.split(" - ")[1]);
                 selectedArtists[0] = choice1.getText().toString();
                 String s2;
                 do {
                     s2 = songs.get(new Random().nextInt(songs.size()));
-                    choice2.setText(s2.split("-")[0]);
-                    choice2.setTag(s2.split("-")[1]);
+                    choice2.setText(s2.split(" - ")[0]);
+                    choice2.setTag(s2.split(" - ")[1]);
                 } while (choice2.getText().toString().equals(selectedArtists[0]));
                 selectedArtists[1] = choice2.getText().toString();
                 String s3;
                 do {
                     s3 = songs.get(new Random().nextInt(songs.size()));
-                    choice3.setText(s3.split("-")[0]);
-                    choice3.setTag(s3.split("-")[1]);
-                } while (choice3.getText().toString().equals(selectedArtists[0]) || choice3.getText().toString().equals(selectedArtists[1]));
-
+                    choice3.setText(s3.split(" - ")[0]);
+                    choice3.setTag(s3.split(" - ")[1]);
+                }
+                while (choice3.getText().toString().equals(selectedArtists[0]) || choice3.getText().toString().equals
+                        (selectedArtists[1]));
                 final Button correct = buttons[new Random().nextInt(buttons.length)];
-
-                final Button choice1 = findViewById(R.id.choice1);
                 choice1.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(final View v) {
@@ -111,7 +99,6 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
-                final Button choice2 = findViewById(R.id.choice2);
                 choice2.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(final View v) {
@@ -119,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
                         if (!choiceMade) {
                             changeButtonColors(correct);
                             choiceMade = true;
-                            if (choice2 == correct)  {
+                            if (choice2 == correct) {
                                 result.setText("Correct!");
                             } else {
                                 result.setText("Incorrect!");
@@ -127,7 +114,6 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
-                final Button choice3 = findViewById(R.id.choice3);
                 choice3.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(final View v) {
@@ -153,13 +139,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void resetButtonColors() {
-        for (Button b: buttons) {
+        for (Button b : buttons) {
             b.setBackgroundColor(Color.LTGRAY);
         }
     }
 
     void changeButtonColors(Button correct) {
-        for (Button b: buttons) {
+        for (Button b : buttons) {
             if (b == correct) {
                 b.setBackgroundColor(Color.GREEN);
             } else {
@@ -176,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
                     null,
                     new Response.Listener<JSONObject>() {
                         @Override
-                        public void onResponse(JSONObject response)  {
+                        public void onResponse(JSONObject response) {
                             Log.d(TAG, response.toString());
                             final TextView lyrics = findViewById(R.id.lyrics);
                             String formattedLyrics;
@@ -190,11 +176,11 @@ public class MainActivity extends AppCompatActivity {
                             lyrics.setMovementMethod(new ScrollingMovementMethod());
                         }
                     }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(final VolleyError error) {
-                            Log.w(TAG, error.toString());
-                        }
-                    });
+                @Override
+                public void onErrorResponse(final VolleyError error) {
+                    Log.w(TAG, error.toString());
+                }
+            });
             requestQueue.add(jsonObjectRequest);
         } catch (Exception e) {
             e.printStackTrace();
@@ -206,5 +192,14 @@ public class MainActivity extends AppCompatActivity {
         formattedString = formattedString.replace("\\r", "\r");
         formattedString = formattedString.replace("\\\"", "\"");
         return formattedString;
+    }
+
+    void getSongs() throws Exception {
+        songs = new ArrayList<>();
+        BufferedReader br = new BufferedReader(new InputStreamReader(getAssets().open("Songs.txt")));
+        String song;
+        while ((song = br.readLine()) != null) {
+            songs.add(song);
+        }
     }
 }
